@@ -9,7 +9,7 @@
 	<property name="libs" location="../" />
 	<property name="jar" value="../NamelistParser.jar" />
 	<fileset id="libraries" dir="${libs}">
-		<include name="CustomStructures.jar" />
+		<include name="AdditionalStructures.jar" />
 	</fileset>
 
 	<!--Files that should be excluded from the build go here-->

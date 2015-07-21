@@ -14,7 +14,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import toberumono.customStructures.tuples.Pair;
+import toberumono.additional.structures.tuples.Pair;
 
 public class NamelistParser {
 	private static final String wordPattern = "[a-z_A-Z][a-z_A-Z0-9]*", quotedPattern = "('.*?(?<!\\\\)')", valueLinePattern = "(" + quotedPattern + "|[^\\\\\n]*\\\\\n)*(" + quotedPattern
