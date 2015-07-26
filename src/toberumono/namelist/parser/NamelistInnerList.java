@@ -2,7 +2,7 @@ package toberumono.namelist.parser;
 
 import java.util.ArrayList;
 
-import toberumono.additional.structures.tuples.Pair;
+import toberumono.structures.tuples.Pair;
 
 public class NamelistInnerList extends ArrayList<Pair<NamelistType, Object>> {
 	int valueWidth = 7;

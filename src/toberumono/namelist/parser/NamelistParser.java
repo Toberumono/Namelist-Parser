@@ -14,8 +14,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
-import toberumono.additional.structures.tuples.Pair;
+import toberumono.structures.tuples.Pair;
 
+/**
+ * A static class for parsing WRF Namelist files.
+ * 
+ * @author Toberumono
+ */
 public class NamelistParser {
 	private static final String wordPattern = "[a-z_A-Z][a-z_A-Z0-9]*", quotedPattern = "('.*?(?<!\\\\)')", valueLinePattern = "(" + quotedPattern + "|[^\\\\\n]*\\\\\n)*(" + quotedPattern
 			+ "|[^\n])*";
@@ -27,6 +32,8 @@ public class NamelistParser {
 		boolean inGroup = false;
 		String groupName = "";
 	}
+	
+	private NamelistParser() {/* Make this static */}
 	
 	/**
 	 * Returns a map-representation of the namelist file contained in <tt>string</tt>.<br>
