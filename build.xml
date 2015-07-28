@@ -21,9 +21,15 @@
 	<property unless:set="bin" name="bin" location="bin" />
 	<property unless:set="doc" name="doc" value="doc" />
 	<property unless:set="libs" name="libs" value="../" />
+	<!--The path into which the .jar should be placed-->
 	<property unless:set="prefix" name="prefix" value="../" />
+	<!--Whether to force a complete rebuild every run-->
 	<property unless:set="clean" name="clean" value="true" />
-	<property unless:set="package_libs" name="package_libs" value="false" />
+
+	<!--What to pack into the .jar in addition to the compiled code.-->
+	<property unless:set="package.doc" name="package.doc" value="true" />
+	<property unless:set="package.src" name="package.src" value="true" />
+	<property unless:set="package.libs" name="package.libs" value="false" />
 
 	<!--Construct the location of the output .jar file-->
 	<property if:set="jar" name="jar" location="${jar}" />
@@ -47,9 +53,7 @@
 			<fileset dir="${src}">
 				<patternset refid="Build Excludes" />
 			</fileset>
-			<classpath if:true="${use.libs}">
-				<fileset refid="library" />
-			</classpath>
+			<classpath if:true="${use.libs}" refid="build.classpath" />
 		</javadoc>
 	</target>
 
@@ -57,40 +61,51 @@
 		<mkdir dir="${bin}" />
 		<javac srcdir="${src}" destdir="${bin}" includeAntRuntime="false" debug="true" debuglevel="lines,vars,source">
 			<patternset refid="Build Excludes" />
-			<classpath if:true="${use.libs}">
-				<fileset refid="library" />
-			</classpath>
+			<classpath if:true="${use.libs}" refid="build.classpath" />
 		</javac>
 	</target>
 
 	<target if="${use.homebrew}" name="find.brew">
-		<exec executable="which" outputproperty="brew.path">
+		<exec unless:set="brew.path" executable="which" outputproperty="brew.path">
 			<arg value="brew" />
 		</exec>
-		<exec executable="${brew.path}" outputproperty="brew.prefix">
+		<exec unless:set="brew.prefix" executable="${brew.path}" outputproperty="brew.prefix">
 			<arg value="--prefix" />
 		</exec>
-		<property name="brew.libs" location="${brew.prefix}/lib/" />
-		<fileset id="library" dir="${brew.libs}">
-			<patternset refid="libraries" />
-		</fileset>
+		<property name="build.libs" location="${brew.prefix}/lib/" />
 	</target>
 
-	<target unless="${use.homebrew}" name="find.libs">
-		<fileset id="library" dir="${libs}">
-			<patternset refid="libraries" />
-		</fileset>
+	<target if="${use.libs}" name="construct.classpath" depends="find.brew">
+		<echo if:true="${use.homebrew}" level="info" message="Using libraries from homebrew." />
+		<echo unless:true="${use.homebrew}" level="info" message="Using libraries from ${libs}" />
+		<property unless:set="build.libs" name="build.libs" location="${libs}" />
+		<path id="build.classpath">
+			<fileset id="library" dir="${build.libs}">
+				<patternset refid="libraries" />
+			</fileset>
+		</path>
+		<pathconvert property="manifest.classpath" pathsep=" ">
+			<path refid="build.classpath" />
+			<mapper>
+				<chainedmapper>
+					<flattenmapper />
+					<globmapper from="*.jar" to="${build.libs}/*.jar" />
+				</chainedmapper>
+			</mapper>
+		</pathconvert>
 	</target>
 
-	<target name="create_jar" depends="find.brew,find.libs,clean,javadoc,build">
+	<target name="create_jar" depends="construct.classpath,clean,javadoc,build">
 		<jar destfile="${jar}" filesetmanifest="mergewithoutmain">
 			<manifest>
-				<attribute name="Class-Path" value="." />
+				<attribute name="Main-Class" value="toberumono.wrf.Runner" />
+				<attribute if:true="${use.libs}" name="Class-Path" value="${manifest.classpath}" />
+				<attribute unless:true="${use.libs}" name="Class-Path" value="." />
 			</manifest>
 			<fileset dir="${bin}" />
-			<fileset dir="." includes="${doc}/**" />
-			<fileset dir="${src}" />
-			<restrict if:true="${package_libs}">
+			<fileset if:true="${package.doc}" dir="." includes="${doc}/**" />
+			<fileset if:true="${package.src}" dir="${src}" />
+			<restrict if:true="${package.libs}">
 				<name regex=".*\.(class|java)" />
 				<archives>
 					<zips>
