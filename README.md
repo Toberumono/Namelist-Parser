@@ -2,7 +2,8 @@
 A library for reading from and writing to namelist files (Particularly those used by [WRF](http://www.wrf-model.org/index.php)).
 
 ## Usage
-### Setup (Using Homebrew/Linuxbrew) (you can, of course, checkout the library and its requirements and build them all yourself, but why bother when there's an easier option?)
+### Setup (Using Homebrew/Linuxbrew)
+##### (you can, of course, checkout the library and its requirements and build them all yourself, but why bother when there's an easier option?)
 #### <a name="rp"></a>Required programs (these are all command line utilities)
 
 * ruby
