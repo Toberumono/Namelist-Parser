@@ -45,6 +45,11 @@ public class NamelistInnerMap extends LinkedHashMap<String, NamelistInnerList<?>
 			else
 				sb.append("\\\n").append(line.trim());
 		}
+		if (keyValue.length() > 0) {
+			String v = sb.toString().trim();
+			if (v.length() > 0)
+			put(groupName, new NamelistInnerList<>(v));
+		}
 	}
 	
 	@Override
