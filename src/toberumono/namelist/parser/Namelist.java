@@ -18,7 +18,7 @@ import java.util.stream.Stream;
  */
 public class Namelist extends LinkedHashMap<String, NamelistInnerMap> {
 	private static final String lineSep = System.lineSeparator();
-	private int keyWidth = 15;
+	private int keyWidth = 7;
 	private int valueWidth = 7;
 	
 	private static final class ParseNamelistState {
@@ -129,7 +129,7 @@ public class Namelist extends LinkedHashMap<String, NamelistInnerMap> {
 		StringBuilder sb = new StringBuilder();
 		for (Entry<String, NamelistInnerMap> e : entrySet()) {
 			sb.append("&").append(e.getKey()).append(lineSep);
-			sb.append(e.getValue().toNamelistString(getValueWidth()));
+			sb.append(e.getValue().toNamelistString(getKeyWidth(), getValueWidth())).append(lineSep);
 			sb.append("/").append(lineSep).append(lineSep);
 		}
 		return sb.toString();

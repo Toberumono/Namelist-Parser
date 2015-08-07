@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * @param <T>
  *            the type of values in the list
  */
-public class NamelistInnerList<T> extends ArrayList<NamelistValue<T>> {
+public class NamelistInnerList<T extends NamelistValue<?>> extends ArrayList<T> {
 	private static final Pattern separationPattern = Pattern.compile("([\\s&&[^\n]]*|,|\\\\\n)*", Pattern.MULTILINE);
 	private static final Pattern booleanPattern = Pattern.compile("\\.((true)|false)\\.");
 	int valueWidth = 7;
@@ -27,7 +27,6 @@ public class NamelistInnerList<T> extends ArrayList<NamelistValue<T>> {
 	 * @param value
 	 *            the value string
 	 */
-	@SuppressWarnings("unchecked")
 	public NamelistInnerList(String value) {
 		value = value.trim();
 		char[] val = value.toCharArray();
@@ -39,7 +38,7 @@ public class NamelistInnerList<T> extends ArrayList<NamelistValue<T>> {
 				if (val[++i] == '\n') {
 					String e = element.toString().trim();
 					if (e.length() > 0)
-						add((NamelistValue<T>) processElement(e));
+						add(processElement(e));
 					element.delete(0, element.length());
 					if (sm.find(++i))
 						i = sm.end() - 1;
@@ -58,7 +57,7 @@ public class NamelistInnerList<T> extends ArrayList<NamelistValue<T>> {
 			else if (val[i] == ',') {
 				String e = element.toString().trim();
 				if (e.length() > 0)
-					add((NamelistValue<T>) processElement(e));
+					add(processElement(e));
 				element.delete(0, element.length());
 				if (sm.find(++i))
 					i = sm.end() - 1;
@@ -74,29 +73,30 @@ public class NamelistInnerList<T> extends ArrayList<NamelistValue<T>> {
 		}
 		String e = element.toString().trim();
 		if (e.length() > 0)
-			add((NamelistValue<T>) processElement(e));
+			add(processElement(e));
 	}
 	
-	private static NamelistValue<? extends Object> processElement(String element) {
+	@SuppressWarnings("unchecked")
+	private T processElement(String element) {
 		try {
-			return new NamelistNumber(Integer.parseInt(element));
+			return (T) new NamelistNumber(Integer.parseInt(element));
 		}
 		catch (NumberFormatException e) {
 			try {
-				return new NamelistNumber(Double.parseDouble(element));
+				return (T) new NamelistNumber(Double.parseDouble(element));
 			}
 			catch (NumberFormatException ex) {
 				Matcher m = booleanPattern.matcher(element);
 				if (m.matches())
-					return new NamelistBoolean(m.group(2) != null);
+					return (T) new NamelistBoolean(m.group(2) != null);
 				else
-					return new NamelistString(element);
+					return (T) new NamelistString(element);
 			}
 		}
 	}
 	
 	@Override
-	public boolean add(NamelistValue<T> value) {
+	public boolean add(T value) {
 		String v = value.type().stringValue(value.value());
 		if (v.length() > valueWidth)
 			valueWidth = v.length();
@@ -120,12 +120,12 @@ public class NamelistInnerList<T> extends ArrayList<NamelistValue<T>> {
 	 * Converts the {@link NamelistInnerList} to syntactically correct {@link Namelist} text
 	 * 
 	 * @param valueWidth
-	 *            the width of the largest value
+	 *            the width of the longest value
 	 * @return the {@link NamelistInnerList} as syntactically correct {@link Namelist} text
 	 */
 	public String toNamelistString(int valueWidth) {
 		StringBuilder sb = new StringBuilder(valueWidth * size());
-		for (NamelistValue<T> v : this) {
+		for (T v : this) {
 			String sv = v.type().stringValue(v.value());
 			sb.append(sv).append(",");
 			for (int i = 0, spaces = valueWidth - sv.length() + 3; i < spaces; i++)

@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * @author Toberumono
  */
 public class NamelistInnerMap extends LinkedHashMap<String, NamelistInnerList<?>> {
-	private int keyWidth = 15;
+	private int keyWidth = 7;
 	private int valueWidth = 7;
 	private static final String wordPattern = "[a-z_A-Z][a-z_A-Z0-9]*", quotedPattern = "('.*?(?<!\\\\)')", valueLinePattern = "(" + quotedPattern + "|[^\\\\\n]*\\\\\n)*(" + quotedPattern
 			+ "|[^\n])*";
@@ -58,25 +58,28 @@ public class NamelistInnerMap extends LinkedHashMap<String, NamelistInnerList<?>
 	
 	@Override
 	public String toString() {
-		return toNamelistString(getValueWidth());
+		return toNamelistString(getKeyWidth(), getValueWidth());
 	}
 	
 	/**
 	 * Converts the {@link NamelistInnerMap} to syntactically correct {@link Namelist} text
 	 * 
+	 * @param keyWidth
+	 *            the width of the longest key
 	 * @param valueWidth
-	 *            the width of the largest value
+	 *            the width of the longest value
 	 * @return the {@link NamelistInnerMap} as syntactically correct {@link Namelist} text
 	 */
-	public String toNamelistString(int valueWidth) {
+	public String toNamelistString(int keyWidth, int valueWidth) {
 		StringBuilder sb = new StringBuilder();
 		for (Entry<String, NamelistInnerList<?>> value : entrySet()) {
 			sb.append(" ").append(value.getKey());
-			for (int i = 0, spaces = getKeyWidth() - value.getKey().length() + 3; i < spaces; i++)
+			for (int i = 0, spaces = keyWidth - value.getKey().length() + 3; i < spaces; i++)
 				sb.append(" ");
-			sb.append("= ").append(value.getValue().toNamelistString(valueWidth)).append(System.lineSeparator());
+			int vw = value.getValue().getValueWidth();
+			sb.append("= ").append(value.getValue().toNamelistString(vw < valueWidth / 2 ? vw : valueWidth)).append(System.lineSeparator());
 		}
-		return sb.toString().trim();
+		return sb.length() > 0 ? sb.toString().substring(0, sb.length() - 1) : sb.toString();
 	}
 	
 	int getKeyWidth() {
