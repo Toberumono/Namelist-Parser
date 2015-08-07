@@ -23,7 +23,7 @@ public class NamelistInnerMap extends LinkedHashMap<String, NamelistInnerList<?>
 	public NamelistInnerMap() {/* This is a super-complicated constructor. */}
 	
 	/**
-	 * Constructs a {@link NamelistInnerList} from a {@link String} containing key-value pairs (at most one pair per line).
+	 * Constructs a {@link NamelistInnerMap} from a {@link String} containing key-value pairs (at most one pair per line).
 	 * 
 	 * @param keyValue
 	 *            the value string
