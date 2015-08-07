@@ -1,7 +1,5 @@
 package toberumono.namelist.parser;
 
-import toberumono.structures.tuples.Pair;
-
 /**
  * Root class for a value in a {@link Namelist} file.
  * 
@@ -9,7 +7,9 @@ import toberumono.structures.tuples.Pair;
  * @param <T>
  *            the type that the {@link NamelistValue} holds
  */
-public abstract class NamelistValue<T> extends Pair<NamelistType, T> {
+public abstract class NamelistValue<T> {
+	private final NamelistType type;
+	private final T value;
 	
 	/**
 	 * Constructs a {@link NamelistValue} with the given type and value. This should be overridden with a constructor that
@@ -21,21 +21,22 @@ public abstract class NamelistValue<T> extends Pair<NamelistType, T> {
 	 *            the value wrapped by the {@link NamelistValue}
 	 */
 	public NamelistValue(NamelistType type, T value) {
-		super(type, value);
+		this.type = type;
+		this.value = value;
 	}
 	
 	/**
 	 * @return the {@link NamelistType} of the {@link NamelistValue}
 	 */
 	public NamelistType type() {
-		return getX();
+		return type;
 	}
 	
 	/**
 	 * @return the value wrapped by the {@link NamelistValue}
 	 */
 	public T value() {
-		return getY();
+		return value;
 	}
 	
 	/**
