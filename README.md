@@ -3,7 +3,7 @@ A library for reading from and writing to namelist files (Particularly those use
 
 ## Usage
 ### Setup (Using Homebrew/Linuxbrew)
-##### (you can, of course, checkout the library and its requirements and build them all yourself, but why bother when there's an easier option?)
+##### (you can, of course, checkout the library and build and update it yourself, but why bother when there's an easier option?)
 #### <a name="rp"></a>Required programs (these are all command line utilities)
 
 * ruby
@@ -31,15 +31,30 @@ If you don't have these, see [Getting the Required Programs](#gtrp) for how to g
 - Linux (note: you may need to change the values of version and update for step 2 to match the files that you downloaded):
 	1. Download the appropriate [Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
 	2. Copy the following script into terminal, and change the values of version and update so that they match the version and update of the JDK you downloaded.  Then run it.
-	```bash
-	export version=8; export update=51; sudo mkdir /usr/lib/jvm; sudo tar zxvf "jdk-${version}u$update-linux-x64.tar.gz" -C /usr/lib/jvm; sudo ln -sf "/usr/lib/jvm/jdk1.$version.0_$update/bin/*" /usr/bin/
-	```
-	3. Install wget, git, ruby, and curl. Run: (For systems that use `yum`, replace `apt-get install` with `yum install`)</br>
-	```bash
-	sudo apt-get install build-essential curl git m4 ruby texinfo libbz2-dev libcurl4-openssl-dev libexpat-dev libncurses-dev zlib1g-dev
-	```
-	4. Install [Linuxbrew](https://github.com/Homebrew/linuxbrew).  If you are not comfortable modifying your .bashrc or .zshrc files, follow step 5.  Otherwise, modify them.
-	5. Link the executables. Run: `export PATH=$HOME/.linuxbrew/bin:$PATH` (This is why there's no need to edit .bashrc and .zshrc).
+	
+		```bash
+		export version=8; export update=51; sudo mkdir /usr/lib/jvm; sudo tar zxvf "jdk-${version}u$update-linux-x64.tar.gz" -C /usr/lib/jvm; sudo ln -sf "/usr/lib/jvm/jdk1.$version.0_$update/bin/*" /usr/bin/
+		```
+	3. Install [Linuxbrew](https://github.com/Homebrew/linuxbrew#install-linuxbrew-tldr). Run one of the following: (For systems that use `yum`, replace `apt-get install` with `yum install`)
+		1. If you have sudo privileges, do the following:
+			1. Run the following script to get the required libraries:
+
+				```bash
+				sudo apt-get install build-essential curl git m4 ruby texinfo libbz2-dev libcurl4-openssl-dev libexpat-dev libncurses-dev zlib1g-dev
+				```
+			2. Install [Linuxbrew](https://github.com/Homebrew/linuxbrew#install-linuxbrew-tldr).
+				+ If you are not comfortable modifying your .bashrc or .zshrc files, follow step 3.  Otherwise, modify them.
+			3. Run:
+	
+				```bash
+				bash <(wget -qO - https://raw.githubusercontent.com/Toberumono/Miscellaneous/master/linuxbrew/append_paths.sh)
+				```
+				+ This adds the additional lines to your .bashrc and/or .zshrc files. For more information on how it works, see its section in the readme of my [Miscellaneous](https://github.com/Toberumono/Miscellaneous#htulap) repo.
+		2. If you do not have sudo privileges, then you can run the following script.  It will attempt to install [Linuxbrew](https://github.com/Homebrew/linuxbrew) without sudo privileges or will list the missing software that you should ask your system administrator to install if it cannot do so.
+
+			```bash
+			bash <(wget -qO - https://raw.githubusercontent.com/Toberumono/Miscellaneous/master/linuxbrew/sudoless_install.sh)
+			```
 - Mac: Ruby and Curl are already installed on Mac, so we don't need to worry about those.
 	1. install the appropriate [Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
 	2. install [Homebrew](http://brew.sh/).
