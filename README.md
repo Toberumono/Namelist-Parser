@@ -28,16 +28,18 @@ If you don't have these, see [Getting the Required Programs](#gtrp) for how to g
 ## Help
 ### <a name="gtrp"></a>Getting the Required Programs
 
-- Linux (note: you may need to change the values of version and update for step 2 to match the files that you downloaded):
+#### Linux
+
 	1. Download the appropriate [Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
-	2. Copy the following script into terminal, and change the values of version and update so that they match the version and update of the JDK you downloaded.  Then run it.
+	2. `cd` into the directory into which you downloaded the JDK (`cd $HOME/Downloads` will likely do it) and run:
 	
 		```bash
-		export version=8; export update=51; sudo mkdir /usr/lib/jvm; sudo tar zxvf "jdk-${version}u$update-linux-x64.tar.gz" -C /usr/lib/jvm; sudo ln -sf "/usr/lib/jvm/jdk1.$version.0_$update/bin/*" /usr/bin/
+		bash <(wget -qO - https://raw.githubusercontent.com/Toberumono/Miscellaneous/master/java/sudoless_install.sh)
 		```
-	3. Install [Linuxbrew](https://github.com/Homebrew/linuxbrew#install-linuxbrew-tldr). Run one of the following: (For systems that use `yum`, replace `apt-get install` with `yum install`)
+		+ For information on what the script does, see its section in the readme of my [Miscellaneous](https://github.com/Toberumono/Miscellaneous#htujsi) repo.
+	3. Install [Linuxbrew](https://github.com/Homebrew/linuxbrew#install-linuxbrew-tldr). Run one of the following:
 		1. If you have sudo privileges, do the following:
-			1. Run the following script to get the required libraries:
+			1. Run the following script to get the required libraries (For systems that use `yum`, replace `apt-get install` with `yum install`):
 
 				```bash
 				sudo apt-get install build-essential curl git m4 ruby texinfo libbz2-dev libcurl4-openssl-dev libexpat-dev libncurses-dev zlib1g-dev
@@ -55,6 +57,8 @@ If you don't have these, see [Getting the Required Programs](#gtrp) for how to g
 			```bash
 			bash <(wget -qO - https://raw.githubusercontent.com/Toberumono/Miscellaneous/master/linuxbrew/sudoless_install.sh)
 			```
-- Mac: Ruby and Curl are already installed on Mac, so we don't need to worry about those.
-	1. install the appropriate [Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
-	2. install [Homebrew](http://brew.sh/).
+#### Mac
+
+	1. Ruby and Curl are already installed on Mac, so we don't need to worry about those.
+	2. install the appropriate [Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
+	3. install [Homebrew](http://brew.sh/).
