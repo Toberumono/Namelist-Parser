@@ -11,23 +11,23 @@ import java.util.regex.Pattern;
  * @param <T>
  *            the type of values in the list
  */
-public class NamelistInnerList<T extends NamelistValue<?>> extends ArrayList<T> {
+public class NamelistValueList<T extends NamelistValue<?>> extends ArrayList<T> {
 	private static final Pattern separationPattern = Pattern.compile("([\\s&&[^\n]]*|,|\\\\\n)*", Pattern.MULTILINE);
 	private static final Pattern booleanPattern = Pattern.compile("\\.((true)|false)\\.");
 	int valueWidth = 7;
 	
 	/**
-	 * Constructs an empty {@link NamelistInnerList}.
+	 * Constructs an empty {@link NamelistValueList}.
 	 */
-	public NamelistInnerList() {/* This is a super-complicated constructor. */}
+	public NamelistValueList() {/* This is a super-complicated constructor. */}
 	
 	/**
-	 * Constructs a {@link NamelistInnerList} from a value string
+	 * Constructs a {@link NamelistValueList} from a value string
 	 * 
 	 * @param value
 	 *            the value string
 	 */
-	public NamelistInnerList(String value) {
+	public NamelistValueList(String value) {
 		value = value.trim();
 		char[] val = value.toCharArray();
 		Matcher sm = separationPattern.matcher(value);
@@ -117,11 +117,11 @@ public class NamelistInnerList<T extends NamelistValue<?>> extends ArrayList<T> 
 	}
 	
 	/**
-	 * Converts the {@link NamelistInnerList} to syntactically correct {@link Namelist} text
+	 * Converts the {@link NamelistValueList} to syntactically correct {@link Namelist} text
 	 * 
 	 * @param valueWidth
 	 *            the width of the longest value
-	 * @return the {@link NamelistInnerList} as syntactically correct {@link Namelist} text
+	 * @return the {@link NamelistValueList} as syntactically correct {@link Namelist} text
 	 */
 	public String toNamelistString(int valueWidth) {
 		StringBuilder sb = new StringBuilder(valueWidth * size());

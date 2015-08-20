@@ -10,7 +10,7 @@ import java.util.regex.Pattern;
  * 
  * @author Toberumono
  */
-public class NamelistInnerMap extends LinkedHashMap<String, NamelistInnerList<?>> {
+public class NamelistSection extends LinkedHashMap<String, NamelistValueList<?>> {
 	private int keyWidth = 7;
 	private int valueWidth = 7;
 	private static final String wordPattern = "[a-z_A-Z][a-z_A-Z0-9]*", quotedPattern = "('.*?(?<!\\\\)')", valueLinePattern = "(" + quotedPattern + "|[^\\\\\n]*\\\\\n)*(" + quotedPattern
@@ -18,17 +18,17 @@ public class NamelistInnerMap extends LinkedHashMap<String, NamelistInnerList<?>
 	private static final Pattern keyValuePattern = Pattern.compile("\\s*(" + wordPattern + ")(\\s|\\\\\n)*=(\\s|\\\\\n)*(" + valueLinePattern + ")", Pattern.MULTILINE);
 	
 	/**
-	 * Constructs an empty {@link NamelistInnerMap}.
+	 * Constructs an empty {@link NamelistSection}.
 	 */
-	public NamelistInnerMap() {/* This is a super-complicated constructor. */}
+	public NamelistSection() {/* This is a super-complicated constructor. */}
 	
 	/**
-	 * Constructs a {@link NamelistInnerMap} from a {@link String} containing key-value pairs (at most one pair per line).
+	 * Constructs a {@link NamelistSection} from a {@link String} containing key-value pairs (at most one pair per line).
 	 * 
 	 * @param keyValue
 	 *            the value string
 	 */
-	public NamelistInnerMap(String keyValue) {
+	public NamelistSection(String keyValue) {
 		final StringBuilder sb = new StringBuilder();
 		String groupName = "";
 		for (String line : keyValue.split(System.lineSeparator())) {
@@ -37,7 +37,7 @@ public class NamelistInnerMap extends LinkedHashMap<String, NamelistInnerList<?>
 			if (m.matches()) {
 				String v = sb.toString().trim();
 				if (v.length() > 0)
-					put(groupName, new NamelistInnerList<>(v));
+					put(groupName, new NamelistValueList<>(v));
 				groupName = m.group(1);
 				sb.delete(0, sb.length());
 				sb.append(m.group(4).trim());
@@ -48,12 +48,12 @@ public class NamelistInnerMap extends LinkedHashMap<String, NamelistInnerList<?>
 		if (keyValue.length() > 0) {
 			String v = sb.toString().trim();
 			if (v.length() > 0)
-			put(groupName, new NamelistInnerList<>(v));
+			put(groupName, new NamelistValueList<>(v));
 		}
 	}
 	
 	@Override
-	public NamelistInnerList<?> put(String key, NamelistInnerList<?> value) {
+	public NamelistValueList<?> put(String key, NamelistValueList<?> value) {
 		if (key.length() > keyWidth)
 			keyWidth = key.length();
 		if (value.getValueWidth() > valueWidth)
@@ -67,17 +67,17 @@ public class NamelistInnerMap extends LinkedHashMap<String, NamelistInnerList<?>
 	}
 	
 	/**
-	 * Converts the {@link NamelistInnerMap} to syntactically correct {@link Namelist} text
+	 * Converts the {@link NamelistSection} to syntactically correct {@link Namelist} text
 	 * 
 	 * @param keyWidth
 	 *            the width of the longest key
 	 * @param valueWidth
 	 *            the width of the longest value
-	 * @return the {@link NamelistInnerMap} as syntactically correct {@link Namelist} text
+	 * @return the {@link NamelistSection} as syntactically correct {@link Namelist} text
 	 */
 	public String toNamelistString(int keyWidth, int valueWidth) {
 		StringBuilder sb = new StringBuilder();
-		for (Entry<String, NamelistInnerList<?>> value : entrySet()) {
+		for (Entry<String, NamelistValueList<?>> value : entrySet()) {
 			sb.append(" ").append(value.getKey());
 			for (int i = 0, spaces = keyWidth - value.getKey().length() + 3; i < spaces; i++)
 				sb.append(" ");

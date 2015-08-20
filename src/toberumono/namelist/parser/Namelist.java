@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  * 
  * @author Toberumono
  */
-public class Namelist extends LinkedHashMap<String, NamelistInnerMap> {
+public class Namelist extends LinkedHashMap<String, NamelistSection> {
 	private static final String lineSep = System.lineSeparator();
 	private int keyWidth = 7;
 	private int valueWidth = 7;
@@ -33,7 +33,7 @@ public class Namelist extends LinkedHashMap<String, NamelistInnerMap> {
 	
 	/**
 	 * Constructs a {@link Namelist} from the given {@link String}.<br>
-	 * Each value in the returned inner map is a {@link NamelistInnerList} of {@link NamelistValue NamelistValues},
+	 * Each value in the returned inner map is a {@link NamelistValueList} of {@link NamelistValue NamelistValues},
 	 * regardless of how many values were found for that key.
 	 * 
 	 * @param text
@@ -45,7 +45,7 @@ public class Namelist extends LinkedHashMap<String, NamelistInnerMap> {
 	
 	/**
 	 * Constructs a {@link Namelist} from the file at the given {@link Path}.<br>
-	 * Each value in the returned inner map is a {@link NamelistInnerList} of {@link NamelistValue NamelistValues},
+	 * Each value in the returned inner map is a {@link NamelistValueList} of {@link NamelistValue NamelistValues},
 	 * regardless of how many values were found for that key.
 	 * 
 	 * @param path
@@ -59,7 +59,7 @@ public class Namelist extends LinkedHashMap<String, NamelistInnerMap> {
 	
 	/**
 	 * Constructs a {@link Namelist} from the given {@link Stream}.<br>
-	 * Each value in the returned inner map is a {@link NamelistInnerList} of {@link NamelistValue NamelistValues},
+	 * Each value in the returned inner map is a {@link NamelistValueList} of {@link NamelistValue NamelistValues},
 	 * regardless of how many values were found for that key.
 	 * 
 	 * @param in
@@ -75,7 +75,7 @@ public class Namelist extends LinkedHashMap<String, NamelistInnerMap> {
 			if (pns.inGroup) {
 				if (line.equals("/")) {
 					pns.inGroup = false;
-					NamelistInnerMap o = new NamelistInnerMap(sb.toString());
+					NamelistSection o = new NamelistSection(sb.toString());
 					put(pns.groupName, o);
 					sb.delete(0, sb.length());
 				}
@@ -90,7 +90,7 @@ public class Namelist extends LinkedHashMap<String, NamelistInnerMap> {
 	}
 	
 	@Override
-	public NamelistInnerMap put(String key, NamelistInnerMap value) {
+	public NamelistSection put(String key, NamelistSection value) {
 		if (value.getKeyWidth() > keyWidth)
 			keyWidth = value.getKeyWidth();
 		if (key.length() > keyWidth)
@@ -127,7 +127,7 @@ public class Namelist extends LinkedHashMap<String, NamelistInnerMap> {
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
-		for (Entry<String, NamelistInnerMap> e : entrySet()) {
+		for (Entry<String, NamelistSection> e : entrySet()) {
 			sb.append("&").append(e.getKey()).append(lineSep);
 			sb.append(e.getValue().toNamelistString(getKeyWidth(), getValueWidth())).append(lineSep);
 			sb.append("/").append(lineSep).append(lineSep);
