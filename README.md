@@ -1,4 +1,4 @@
-#Namelist-Parser
+#Namelist Parser
 A library for reading from and writing to Namelist files (Particularly those used by [WRF](http://www.wrf-model.org/index.php)).
 
 ##Usage
