@@ -28,7 +28,7 @@ If you don't have these, see [Getting the Required Programs](#getting-the-requir
 5. For examples, see the source code for my [WRF Runner](https://github.com/Toberumono/WRF-Runner) project.  It uses effectively every feature.
 
 ##Help
-###<a name="getting-the-required-programs"></a>Getting the Required Programs
+###Getting the Required Programs
 
 ####Linux
 
