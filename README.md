@@ -2,66 +2,97 @@
 A library for reading from and writing to Namelist files (Particularly those used by [WRF](http://www.wrf-model.org/index.php)).
 
 ##Usage
-###Setup (Using Homebrew/Linuxbrew)
-#####(you can, of course, checkout the library and build and update it yourself, but why bother when there's an easier option?)
-####Required programs
-#####(these are all command line utilities)
 
-* ruby
-* curl
-* git
-* Homebrew/Linuxbrew
-* [Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (update 45 or higher)
+See the this project's [wiki](https://github.com/Toberumono/Namelist-Parser/wiki) for usage examples.
 
-If you don't have these, see [Getting the Required Programs](#getting-the-required-programs) for how to get them.
+###Compiling
+There are a two main options for compiling this library:
 
-####Compiling the Library
+1. With [Homebrew](http://brew.sh) or [Linuxbrew](https://github.com/Homebrew/linuxbrew)
+  + Pros:
+    - Makes updating incredibly easy
+    - Automatically installs [Apache Ant](http://ant.apache.org/)
+    - Handles automatic dependency tracking (for a lot of software)
+  + Cons:
+    - Setting up [Homebrew](http://brew.sh)/[Linuxbrew](https://github.com/Homebrew/linuxbrew) includes some overhead
+    - In rare cases, [Linuxbrew](https://github.com/Homebrew/linuxbrew) can have some compatibility problems
+    - Setting up [Linuxbrew](https://github.com/Homebrew/linuxbrew) can require sudo
+2. Without [Homebrew](http://brew.sh) or [Linuxbrew](https://github.com/Homebrew/linuxbrew)
+  + Pros:
+    - Can have less overhead than setting up [Homebrew](http://brew.sh)/[Linuxbrew](https://github.com/Homebrew/linuxbrew)
+    - Avoids potential compatibility issues with [Linuxbrew](https://github.com/Homebrew/linuxbrew)
+  + Cons:
+    - Manually setting up [Ant](http://ant.apache.org/) can be a pain
+    - Updating the software and libraries is harder
 
-1. Make sure that you have the [Required Programs](#required-programs).
-  + If you don't, follow the directions in [Getting the Required Programs](#getting-the-required-programs).
-2. Run `brew tap toberumono/tap` (This only needs to be run once.)
-  + If you're on Linux and it cannot find the brew command, run `export PATH=$HOME/.linuxbrew/bin:$PATH`.
-3. Run `brew install namelist-parser`
-  + Linuxbrew may have trouble with a few dependencies, running `brew install` for each dependency, while annoying, will fix that problem.
-5. To use the library in a project of your own, add the path listed in the caveats section to your classpath.
-4. If you want access to the JavaDoc from a program such as Eclipse, it is in the .jar file in the doc folder.  For reading in a web browser, the documentation will be in the directory listed in the "caveats" section of the Homebrew output.
-5. For examples, see the source code for my [WRF Runner](https://github.com/Toberumono/WRF-Runner) project.  It uses effectively every feature.
+####Required Software
+(these are all command line utilities)<br>
+Note: Software that is installed as a part of the setup instructions is not included.
 
-##Help
-###Getting the Required Programs
+* Both:
+  + git
+  + [Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (update 45 or higher)
+* With [Homebrew](http://brew.sh)/[Linuxbrew](https://github.com/Homebrew/linuxbrew):
+  + ruby (Already installed on Macs)
+  + curl (Already installed on Macs)
+* Without [Homebrew](http://brew.sh)/[Linuxbrew](https://github.com/Homebrew/linuxbrew):
+  + [Ant](http://ant.apache.org/)
 
-####Linux
+**Note**: If you do not have the needed software, or are not sure, see [Getting the Required Software](#getting-the-required-software) for instructions on how to get the software.
 
-1. Download the appropriate [Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
-2. `cd` into the directory into which you downloaded the JDK (`cd $HOME/Downloads` will likely do it) and run:
-  
-  ```bash
-  bash <(wget -qO - https://raw.githubusercontent.com/Toberumono/Miscellaneous/master/java/sudoless_install.sh)
-  ```
-  + For information on what the script does, see its section in the readme of my [Miscellaneous](https://github.com/Toberumono/Miscellaneous#htujsi) repo.
-3. Install [Linuxbrew](https://github.com/Homebrew/linuxbrew#install-linuxbrew-tldr). Run one of the following:
-  1. If you have sudo privileges, do the following:
-    1. Run the following script to get the required libraries (For systems that use `yum`, replace `apt-get install` with `yum install`):
+####Getting the Required Software
+
+* Both:
+  + git (if `which git` does not show a path):
+    * For Mac, install XCode developer tools
+    * For Linux, `sudo apt-get install git` or `sudo yum install git` should work
+  + [Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html) (update 45 or higher):
+    * For Mac: Download the JDK from Oracle here: [http://www.oracle.com/technetwork/java/javase/downloads/index.html](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
+    * For Linux: follow the instructions at [https://github.com/Toberumono/Miscellaneous/wiki/Installing-Oracle's-JDK-on-Linux](https://github.com/Toberumono/Miscellaneous/wiki/Installing-Oracle's-JDK-on-Linux)
+* With [Homebrew](http://brew.sh)/[Linuxbrew](https://github.com/Homebrew/linuxbrew):
+  + See their respective websites for setup instructions.
+    - Homebrew: [http://brew.sh](http://brew.sh)
+    - Linuxbrew: [https://github.com/Homebrew/linuxbrew](https://github.com/Homebrew/linuxbrew)
+* Without [Homebrew](http://brew.sh)/[Linuxbrew](https://github.com/Homebrew/linuxbrew):
+  + [Ant](http://ant.apache.org/):
+    - See [https://github.com/Toberumono/Miscellaneous/wiki/Installing-Apache-Ant](https://github.com/Toberumono/Miscellaneous/wiki/Installing-Apache-Ant) for setup instructions.
+
+####Compiling With Homebrew/Linuxbrew
+Any "run" instruction means, "copy and paste the following into Terminal and hit enter".
+
+1. Run `brew tap Toberumono/tap`
+2. Run `brew install namelist-parser`
+3. All done!
+
+####Compiling Without Homebrew/Linuxbrew
+Any "run" instruction means, "copy and paste the following into Terminal and hit enter".
+
+1. Create the directory that you want to contain the .jar file
+2. Run one of the following:
+  + For upgradeable builds, run:
+    
+    ```bash
+    op="$(pwd)" && tg="Namelist-Parser" && git clone "https://github.com/Toberumono/$tg.git" && cd "./$tg" && git checkout "$(git describe)" && ant; cd "$op"; unset op tg
+    ```
+    * This is the recommended option.
+    * It clones the repository and then checks out the most recent tagged commit (aka the most recent release)
+    * To update, cd into the directory with the .jar file and run:
 
       ```bash
-      sudo apt-get install build-essential curl git m4 ruby texinfo libbz2-dev libcurl4-openssl-dev libexpat-dev libncurses-dev zlib1g-dev
+      op="$(pwd)" && tg="Namelist-Parser" && cd "./$tg" && git fetch && git checkout "$(git describe)" && ant; cd "$op"; unset op tg
       ```
-    2. Install [Linuxbrew](https://github.com/Homebrew/linuxbrew#install-linuxbrew-tldr).
-      + If you are not comfortable modifying your .bashrc or .zshrc files, follow step c.  Otherwise, modify them.
-    3. Run:
-  
-      ```bash
-      bash <(wget -qO - https://raw.githubusercontent.com/Toberumono/Miscellaneous/master/linuxbrew/append_paths.sh)
-      ```
-      + This adds the additional lines to your .bashrc and/or .zshrc files. For more information on how it works, see its section in the readme of my [Miscellaneous](https://github.com/Toberumono/Miscellaneous#htulap) repo.
-  2. If you do not have sudo privileges, then you can run the following script.  It will attempt to install [Linuxbrew](https://github.com/Homebrew/linuxbrew) without sudo privileges or will list the missing software that you should ask your system administrator to install if it cannot do so.
+  + For one-time builds, run:
 
     ```bash
-    bash <(wget -qO - https://raw.githubusercontent.com/Toberumono/Miscellaneous/master/linuxbrew/sudoless_install.sh)
+    op="$(pwd)" && tg="Namelist-Parser" && url="https://github.com/Toberumono/$tg" && mkdir "./$tg" && curl -#fSL "$url/archive/$(git ls-remote --tags $url.git | grep -oE '([0-9]+\.)*[0-9]+$' | sort -g | tail -1).tar.gz" | tar -xz --strip-components 1 -C "./$tg" && cd "./$tg" && ant; cd "$op" && rm -rf "$tg"; unset op tg url
     ```
+    * This will get the most recent tagged release *only*.
+    * While this is not recommended, it is still perfectly safe - it just makes updating a bit trickier.
+  + If you *really* want the cutting edge, possibly broken version, run:
 
-####Mac
-
-1. Ruby and Curl are already installed on Mac, so we don't need to worry about those.
-2. install the appropriate [Java 8 JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html).
-3. install [Homebrew](http://brew.sh/).
+    ```bash
+    op="$(pwd)" && tg="Namelist-Parser" && git clone "https://github.com/Toberumono/$tg.git" && cd "./$tg" && ant; cd "$op"; unset op tg
+    ```
+    * If you do not know how to update to the latest version after running this, don't run it.
+    * This is not recommended mainly because it is not safe - unless you are willing to do some debugging, avoid this option.
+3. All done!
