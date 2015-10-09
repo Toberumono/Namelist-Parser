@@ -2,10 +2,8 @@ package toberumono.namelist.parser;
 
 import java.io.IOException;
 import java.io.Writer;
-import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map.Entry;
@@ -17,7 +15,6 @@ import java.util.stream.Stream;
  * @author Toberumono
  */
 public class Namelist extends LinkedHashMap<String, NamelistSection> {
-	private static final String lineSep = System.lineSeparator();
 	private int keyWidth = 7;
 	private int valueWidth = 7;
 	
@@ -109,7 +106,9 @@ public class Namelist extends LinkedHashMap<String, NamelistSection> {
 	 *             if an I/O error occurs
 	 */
 	public void write(Path path) throws IOException {
-		Files.write(path, Arrays.asList(toString().split(lineSep)), Charset.defaultCharset(), StandardOpenOption.CREATE, StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING);
+		try (Writer w = Files.newBufferedWriter(path)) {
+			write(w);
+		}
 	}
 	
 	/**
@@ -128,9 +127,9 @@ public class Namelist extends LinkedHashMap<String, NamelistSection> {
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
 		for (Entry<String, NamelistSection> e : entrySet()) {
-			sb.append("&").append(e.getKey()).append(lineSep);
-			sb.append(e.getValue().toNamelistString(getKeyWidth(), getValueWidth())).append(lineSep);
-			sb.append("/").append(lineSep).append(lineSep);
+			sb.append("&").append(e.getKey()).append(System.lineSeparator());
+			sb.append(e.getValue().toNamelistString(getKeyWidth(), getValueWidth())).append(System.lineSeparator());
+			sb.append("/").append(System.lineSeparator()).append(System.lineSeparator());
 		}
 		return sb.toString();
 	}
