@@ -21,7 +21,7 @@ public enum NamelistType {
 	Boolean {
 		@Override
 		public java.lang.String stringValue(Object o) {
-			return "." + ((Boolean) o) + ".";
+			return "." + o + ".";
 		}
 	},
 	/**
